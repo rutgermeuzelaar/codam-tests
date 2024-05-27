@@ -3,8 +3,8 @@ import unittest
 import random
 from itertools import permutations
 
-PUSH_SWAP_PATH = "../push_swap"
-CHECKER_PATH = "../checker_linux"
+PUSH_SWAP_PATH = "../../push_swap"
+CHECKER_PATH = "../../checker_linux"
 RED = "\033[31m"
 GREEN = "\033[32m"
 END_COLOR = "\033[0m"
@@ -86,6 +86,9 @@ class TestFirstArg(unittest.TestCase):
     
     def test_single_plus_zero(self):
         self.assertEqual('Error\n', exec_exe("+0").get("stderr"))
+    
+    def test_single_plus_zero_space(self):
+        self.assertEqual('Error\n', exec_exe("+ 0").get("stderr"))
  
 class TestMixedArgs(unittest.TestCase):
     
@@ -110,7 +113,9 @@ class TestMixedArgs(unittest.TestCase):
             ["--1"],
 		]
         for test in mixed_tests:
+            joined = " ".join(test)
             self.assertEqual("Error\n", exec_exe(*test).get("stderr"))
+            self.assertEqual("Error\n", exec_exe(joined).get("stderr"))
             self.assertEqual(1,
                              exec_exe(*test).
                              get("stderr").
